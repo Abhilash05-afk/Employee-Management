@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Attrition Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 15px;
+            display: none;
+            background: #eef2f5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Employee Attrition Predictor</h1>
+
+    <label>Age</label>
+    <input type="number" id="Age" value="30">
+
+    <label>Department</label>
+    <select id="Department">
+        <option>Sales</option>
+        <option>Research & Development</option>
+        <option>Human Resources</option>
+    </select>
+
+    <label>Job Role</label>
+    <select id="JobRole">
+        <option>Sales Executive</option>
+        <option>Research Scientist</option>
+        <option>Laboratory Technician</option>
+        <option>Manufacturing Director</option>
+        <option>Healthcare Representative</option>
+        <option>Manager</option>
+        <option>Research Director</option>
+        <option>Human Resources</option>
+    </select>
+
+    <label>Overtime</label>
+    <select id="OverTime">
+        <option>Yes</option>
+        <option>No</option>
+    </select>
+
+    <label>Monthly Income</label>
+    <input type="number" id="MonthlyIncome" value="5000">
+
+    <button onclick="predictAttrition()">
+        Predict Attrition
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+async function predictAttrition() {
+
+    const employeeData = {
+
+        Age: Number(document.getElementById("Age").value),
+
+        BusinessTravel: "Travel_Rarely",
+
+        DailyRate: 800,
+
+        Department: document.getElementById("Department").value,
+
+        DistanceFromHome: 10,
+
+        Education: 3,
+
+        EducationField: "Life Sciences",
+
+        EnvironmentSatisfaction: 3,
+
+        Gender: "Male",
+
+        HourlyRate: 60,
+
+        JobInvolvement: 3,
+
+        JobLevel: 2,
+
+        JobRole: document.getElementById("JobRole").value,
+
+        JobSatisfaction: 3,
+
+        MaritalStatus: "Single",
+
+        MonthlyIncome: Number(
+            document.getElementById("MonthlyIncome").value
+        ),
+
+        MonthlyRate: 15000,
+
+        NumCompaniesWorked: 2,
+
+        OverTime: document.getElementById("OverTime").value,
+
+        PercentSalaryHike: 15,
+
+        PerformanceRating: 3,
+
+        RelationshipSatisfaction: 3,
+
+        StockOptionLevel: 0,
+
+        TotalWorkingYears: 5,
+
+        TrainingTimesLastYear: 3,
+
+        WorkLifeBalance: 3,
+
+        YearsAtCompany: 3,
+
+        YearsInCurrentRole: 2,
+
+        YearsSinceLastPromotion: 1,
+
+        YearsWithCurrManager: 2
+    };
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/predict",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(employeeData)
+            }
+        );
+
+        const result = await response.json();
+
+        const resultDiv = document.getElementById("result");
+
+        resultDiv.style.display = "block";
+
+        if (response.ok) {
+
+            resultDiv.innerHTML = `
+                <h3>Prediction Result</h3>
+
+                <p>
+                    <strong>Prediction:</strong>
+                    ${result.prediction}
+                </p>
+
+                <p>
+                    <strong>Attrition Probability:</strong>
+                    ${(result.attrition_probability * 100).toFixed(2)}%
+                </p>
+            `;
+
+        } else {
+
+            resultDiv.innerHTML = `
+                <p>
+                    <strong>Error:</strong>
+                    ${result.detail}
+                </p>
+            `;
+        }
+
+    } catch (error) {
+
+        document.getElementById("result").style.display = "block";
+
+        document.getElementById("result").innerHTML = `
+            <p>
+                Could not connect to the FastAPI server.
+            </p>
+        `;
+    }
+}
+
+</script>
+
+</body>
+</html>
