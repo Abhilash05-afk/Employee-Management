@@ -1,36 +1,24 @@
-##### Employee Attrition Prediction System
+###### Employee Attrition Prediction System
 
 
 
-A machine learning-based employee attrition prediction system built using Python, Pandas, NumPy, Scikit-learn, FastAPI, and REST APIs.
+A Python-based machine learning project that predicts employee attrition using employee-related data. The project also includes a FastAPI REST API for making predictions.
 
 
 
-###### \--> Project Overview
+###### \--> About the Project
 
 
 
-This project analyzes employee data and predicts whether an employee is likely to leave the organization.
+Employee attrition can be influenced by factors such as age, income, job role, distance from home, and other employee-related information.
 
 
 
-The system combines:
+This project uses employee data to train machine learning models and predict whether an employee is likely to leave the organization.
 
 
 
-\- Data preprocessing
-
-\- Exploratory data analysis
-
-\- Machine learning models
-
-\- Model evaluation
-
-\- FastAPI REST API
-
-\- Input validation
-
-\- Prediction responses
+The project covers the complete flow from data preprocessing and model training to serving predictions through an API.
 
 
 
@@ -54,59 +42,103 @@ The system combines:
 
 
 
-###### \--> Project Structure
+###### \--> Machine Learning
 
 
 
-EmployeeAttrition/
+The project uses the following machine learning algorithms:
 
-│
 
-├── app/
 
-│   ├── \_init\_.py
+\- Logistic Regression
 
-│   ├── database.py
+\- Decision Tree
 
-│   ├── main.py
+\- Random Forest
 
-│   └── schemas.py
 
-│
 
-├── data/
+The models are evaluated using:
 
-│   ├── employee\_data.csv
 
-│   └── WA\_Fn-UseC\_-HR-Employee-Attrition.csv
 
-│
+\- Accuracy
 
-├── frontend/
+\- Precision
 
-│   └── index.html
+\- Recall
 
-│
+\- F1 Score
 
-├── models/
+\- Confusion Matrix
 
-│   └── attrition\_model.pkl
 
-│
 
-├── notebooks/
+###### \--> Project Workflow
 
-│
 
-├── tests/
 
-│
+1\. Load the employee dataset
 
-├── requirements.txt
+2\. Clean and preprocess the data
 
-├── test\_database.py
+3\. Convert categorical values into numerical values
 
-├── train\_model.py
+4\. Prepare the features and target variable
 
-└── README.md
+5\. Split the data into training and testing sets
+
+6\. Train the machine learning models
+
+7\. Evaluate the models
+
+8\. Save the trained model
+
+9\. Use FastAPI to serve predictions through a REST API
+
+
+
+###### \--> FastAPI REST API
+
+
+
+The trained model is connected to a FastAPI application that provides REST API endpoints for checking the API status, making attrition predictions, and retrieving prediction results.
+
+
+
+###### \--> Available Endpoints
+
+
+
+| Method | Endpoint | Description |
+
+|---|---|---|
+
+| GET | `/` | Check the API status |
+
+| GET | `/health` | Health check |
+
+| POST | `/predict` | Predict employee attrition |
+
+| GET | `/predictions` | Get prediction results |
+
+
+
+FastAPI provides interactive API documentation through Swagger UI, which can be used to test the endpoints directly from the browser.
+
+
+
+###### \--> Run the API
+
+
+
+```bash
+
+uvicorn app.main:app --reload--> Run the API
+
+
+
+```bash
+
+uvicorn app.main:app --reload
 
